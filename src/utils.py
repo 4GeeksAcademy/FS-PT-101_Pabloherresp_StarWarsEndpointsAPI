@@ -38,4 +38,9 @@ def generate_sitemap(app):
         <p>API HOST: <script>document.write('<input style="padding: 5px; width: 300px" type="text" value="'+window.location.href+'" />');</script></p>
         <p>Start working on your proyect by following the <a href="https://start.4geeksacademy.com/starters/flask" target="_blank">Quick Start</a></p>
         <p>Remember to specify a real endpoint path like: </p>
-        <ul style="text-align: left;">"""+links_html+"</ul></div>"
+        <ul style="text-align: left;">"""+links_html+"""</ul>
+        <h3>AYUDA PARA CONSUMIR ESTA API</h3>
+        <p>En la carpeta src hay un archivo llamado postman_import.json. Este archivo se puede copiar como texto e importar a cualquier colección de
+        Postman para poder tener acceso rápido a los requests posibles para esta API de Pokemon.</p>
+        <p>Antes de copiar el texto, puedes ir al final del archivo y cambiar el valor de la variable database_url por la dirección de tu codespace
+        la que aparece arriba en el recuadro) para no tener que cambiar la dirección en cada uno de los requests.</p></div>"""

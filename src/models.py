@@ -105,7 +105,7 @@ class Regions(db.Model):
             "id": self.id,
             "name": self.name,
             "cities": [city.name for city in self.cities],
-            "favved_by": [item.user.id for item in self.favved_by]
+            "favved_by": [item.user.email for item in self.favved_by]
         }
 
 class Favs(db.Model):
@@ -121,9 +121,23 @@ class Favs(db.Model):
     region: Mapped["Regions"] = relationship(back_populates="favved_by")
 
     def serialize(self):
+        pokemon = None
+        city = None
+        region = None
+
+        if self.pokemon:
+            pokemon = self.pokemon.serialize()
+            del pokemon["favved_by"]
+        elif self.city:
+            city = self.city.serialize()
+            del city["favved_by"]
+        elif self.region:
+            region = self.region.serialize()
+            del region["favved_by"]
+
         return{
             "user": self.user.email,
-            "pokemon": self.pokemon.serialize() if self.pokemon else None,
-            "city": self.city.serialize() if self.city else None,
-            "region": self.region.serialize() if self.region else None
+            "pokemon": pokemon,
+            "city": city,
+            "region": region
         }
