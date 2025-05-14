@@ -14,7 +14,6 @@ def setup_admin(app):
     admin.add_view(ModelView(Pokemons, db.session))
     admin.add_view(ModelView(Cities, db.session))
     admin.add_view(ModelView(Regions, db.session))
-    admin.add_view(ModelView(Favs, db.session))
 
     # You can duplicate that line to add mew models
     # admin.add_view(ModelView(YourModelName, db.session))

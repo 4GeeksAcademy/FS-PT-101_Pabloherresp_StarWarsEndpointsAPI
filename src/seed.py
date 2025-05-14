@@ -1,18 +1,20 @@
 from app import app, db
 from models import Users, Pokemons, Cities, Regions, Favs, Type
+from sqlalchemy import select
 
 with app.app_context():
     db.drop_all()
     db.create_all()
 
-    user1 = Users(email="pablo@example.com", password="1234")
+    user1 = Users(email="pablo2@example.com", password="1234")
     user2 = Users(email="rocky@example.com", password="5678")
     db.session.add_all([user1, user2])
     db.session.commit()
 
     pokemon1 = Pokemons(name="Pikachu", type=Type.Electric)
     pokemon2 = Pokemons(name="Charmander", type=Type.Fire)
-    db.session.add_all([pokemon1, pokemon2])
+    pokemon3 = Pokemons(name="Mewtwo", type=Type.Psychic)
+    db.session.add_all([pokemon1, pokemon2, pokemon3])
     db.session.commit()
 
     region1 = Regions(name="Kanto")
@@ -20,7 +22,6 @@ with app.app_context():
     db.session.add_all([region1, region2])
     db.session.commit()
 
-    # Cursos
     city1 = Cities(name="Pueblo Paleta", region_id=region1.id)
     city2 = Cities(name="Pueblo Azalea", region_id=region2.id)
     db.session.add_all([city1, city2])
@@ -35,4 +36,5 @@ with app.app_context():
     # db.session.add_all([fav1, fav2, fav3, fav4, fav5, fav6])
 
     # db.session.commit()
+    
     print("✅ Datos sembrados correctamente.")
