@@ -9,7 +9,7 @@ from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
 from models import db, Users, Pokemons, Cities, Regions, Favs, Type
-from sqlalchemy import select, delete
+from sqlalchemy import select, delete, and_
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -242,7 +242,6 @@ def delete_region(region_id):
 def create_fav():
     data = request.json
     if not data or not "user_id" in data or not ("pokemon_id" in data or "city_id" in data or "region_id" in data):
-        print("Vaya")
         return jsonify({"error": "Missing fields for creating fav."}), 400
     fav = Favs(
         user_id=data["user_id"],
@@ -257,6 +256,26 @@ def create_fav():
         return jsonify({"error": "Couldn't create Fav"}), 400
         
     return jsonify({"message":"Fav created"}), 200
+
+@app.route("/favs", methods=['DELETE'])
+def delete_fav():
+    data = request.json
+    if not data or not "user_id" in data or not ("pokemon_id" in data or "city_id" in data or "region_id" in data):
+        return jsonify({"error": "Missing fields for creating fav."}), 400
+    stmt = ""
+    if "pokemon_id" in data:
+        stmt = delete(Favs).where(and_(Favs.user_id == data["user_id"], Favs.pokemon_id == data["pokemon_id"]))
+    elif "city_id" in data:
+        stmt = stmt.where(Favs.city_id == data.city_id)
+    elif "region_id" in data:
+        stmt = stmt.where(Favs.region_id == data.region_id)
+    if(stmt != ""):
+        db.session.execute(stmt)
+    try:
+        db.session.commit()
+    except Exception as e:
+        return jsonify({"error": "Couldn't delete Fav"}), 400
+    return jsonify({"message":"Fav deleted"})
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
