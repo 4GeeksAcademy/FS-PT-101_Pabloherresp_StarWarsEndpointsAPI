@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: e7753af87c69
+Revision ID: e58c37d15727
 Revises: 
-Create Date: 2025-05-13 23:34:51.774382
+Create Date: 2025-05-14 13:00:12.562906
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e7753af87c69'
+revision = 'e58c37d15727'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,7 +21,9 @@ def upgrade():
     op.create_table('pokemons',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
-    sa.Column('type', sa.Enum('Fire', 'Water', 'Grass', 'Bug', 'Dark', 'Dragon', 'Electric', 'Fairy', 'Fighting', 'Flying', 'Ghost', 'Ground', 'Ice', 'Normal', 'Poison', 'Psychic', 'Rock', 'Steel', name='type'), nullable=False),
+    sa.Column('type1', sa.Enum('Fire', 'Water', 'Grass', 'Bug', 'Dark', 'Dragon', 'Electric', 'Fairy', 'Fighting', 'Flying', 'Ghost', 'Ground', 'Ice', 'Normal', 'Poison', 'Psychic', 'Rock', 'Steel', name='type'), nullable=False),
+    sa.Column('type2', sa.Enum('Fire', 'Water', 'Grass', 'Bug', 'Dark', 'Dragon', 'Electric', 'Fairy', 'Fighting', 'Flying', 'Ghost', 'Ground', 'Ice', 'Normal', 'Poison', 'Psychic', 'Rock', 'Steel', name='type'), nullable=True),
+    sa.Column('desc', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('regions',
@@ -39,6 +41,7 @@ def upgrade():
     op.create_table('cities',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
+    sa.Column('population', sa.Integer(), nullable=False),
     sa.Column('region_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['region_id'], ['regions.id'], ),
     sa.PrimaryKeyConstraint('id')
